@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import "./style.css"
 import {withRouter} from 'react-router-dom';
 
-const LoginSignUp = ({history}) => {
+const LoginSignUp = ({history, setUser}) => {
   const [userDetails, setUserDetails] = useState({
     email: "",
     password: "",
@@ -30,7 +30,10 @@ const LoginSignUp = ({history}) => {
         console.log(jsonRes)
         return jsonRes
       }).catch(error => console.log(error));
-      localStorage.setItem("user", JSON.stringify(user));
+      if(user) {
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+      }
       history.push("/");
     }else{
       alert("password doesnt match");
@@ -50,10 +53,12 @@ const LoginSignUp = ({history}) => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     }).then(res => res.json()).then(jsonRes => {
-      console.log(jsonRes)
       return jsonRes
     }).catch(error => console.log(error));
-    localStorage.setItem("user", JSON.stringify(user));
+    if(user){
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+    }
     history.push("/");
     
   }

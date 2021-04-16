@@ -1,25 +1,30 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect } from 'react';
 import './navbar.css'
 
-const NavBar = () =>{
-    const [user, setUser] = useState(localStorage.user ? JSON.parse(localStorage.user) : undefined)
+const NavBar = ({user ,setUser}) =>{
+    
     useEffect(() => {}, [user]);
     const handleLogout = (e) => {
         e.preventDefault();
-        localStorage.removeItem("user");
+        if(localStorage.user)
+            localStorage.removeItem("user");
         setUser(undefined);
     }
     return(
         <div>
             <nav className="Nav">
-        
                 <div className="NavMenu">
-                    <a className="NavLink" href="/" activeStyle>
+                    <a className="NavLink" href="/">
                         Expense Tracker
                     </a>
-                    <span className="NavLink" activeStyle>
-                        UserName
-                    </span>
+                    {
+                        user ? 
+                            <span className="NavLink">
+                                {user.body.email}
+                            </span>
+                        : null
+                    }
+                    
                 </div>
                 <nav className="NavBtn">
                     {

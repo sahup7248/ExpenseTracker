@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {TextField, Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { ExpenseTrackerContext } from '../../../context/context';
-import { v4 as uuidv4 } from 'uuid';
 import {useSpeechContext} from '@speechly/react-client'; 
 
 import formatDate from '../../../utils/formatDate';
@@ -14,6 +13,7 @@ const initialState = {
     category: incomeCategories[0].type,
     type:'Income',
     date: formatDate(new Date()),
+    user_id: JSON.parse(localStorage.user).body._id,
 }
 
 const Form = () => {
@@ -23,12 +23,21 @@ const Form = () => {
     const { segment } = useSpeechContext();
     const [open, setOpen ] = useState(false);
 
-    const createTransaction = () => {
+    const createTransaction = async () => {
         if(Number.isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
-       const transaction = { ...formData, amount: Number(formData.amount), id: uuidv4() }
-       
+       const transaction = { ...formData, amount: Number(formData.amount)}
+       let addedTransaction = await fetch("http://localhost:5000/api/v001/data/post", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization':"Bearer " + JSON.parse(localStorage.user).token
+                },
+                body:JSON.stringify(transaction),
+        }).then(res => res.json()).then(jsonRes => {
+                return jsonRes
+        }).catch(error => console.log(error));
         setOpen(true);
-        addTransaction(transaction);
+        if(addedTransaction) addTransaction(addedTransaction);
         setFormData(initialState);
     }
 
