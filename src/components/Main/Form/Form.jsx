@@ -13,7 +13,7 @@ const initialState = {
     category: incomeCategories[0].type,
     type:'Income',
     date: formatDate(new Date()),
-    user_id: JSON.parse(localStorage.user).body._id,
+    user_id: ' ',
 }
 
 const Form = () => {
@@ -25,7 +25,7 @@ const Form = () => {
 
     const createTransaction = async () => {
         if(Number.isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
-       const transaction = { ...formData, amount: Number(formData.amount)}
+       const transaction = { ...formData, amount: Number(formData.amount), user_id: JSON.parse(localStorage.user).body._id}
        let addedTransaction = await fetch("http://localhost:5000/api/v001/data/post", {
                 method: "POST",
                 headers: {
