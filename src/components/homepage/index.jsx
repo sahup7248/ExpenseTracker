@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Grid } from '@material-ui/core';
 import { PushToTalkButton, PushToTalkButtonContainer, ErrorPanel } from '@speechly/react-ui';
 import { SpeechState, useSpeechContext } from '@speechly/react-client';
@@ -14,7 +14,7 @@ const Homepage = ({user, setUser}) => {
     const { speechState } = useSpeechContext();
     const main = useRef(null);
     const executeScroll = () => main.current.scrollIntoView();
-
+    const [transactions, setTransactions] = useState(localStorage.transactions ?  JSON.parse(localStorage.transactions): null);
     useEffect(() => {
         if(speechState === SpeechState.Recording){
             executeScroll();
@@ -26,16 +26,16 @@ const Homepage = ({user, setUser}) => {
             <NavBar user={user} setUser={setUser}/>
             <Grid className={classes.grid} container spacing={0} alignItems="center" justify="center" style={{ height: '100vh' }}>
                 <Grid item xs={12} sm={4} className={classes.mobile}>
-                    <Details title="Income"/>
+                    <Details title="Income" transactions/>
                 </Grid>
                 <Grid ref={main} item xs={12} sm={3} className={classes.main}>
-                    <Main /> 
+                    <Main transactions={transactions} setTransactions={setTransactions}/> 
                 </Grid>
                 <Grid item xs={12} sm={4} className={classes.desktop}>
-                    <Details title="Income"/>
+                    <Details title="Income" transactions/>
                 </Grid>
                 <Grid item xs={12} sm={4} className={classes.last}>
-                    <Details title="Expense"/>
+                    <Details title="Expense" transactions/>
                 </Grid>
             </Grid>
             <PushToTalkButtonContainer>

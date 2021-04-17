@@ -1,28 +1,28 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { List as MUIList, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, IconButton, Slide } from '@material-ui/core';
 import { Delete, MoneyOff } from '@material-ui/icons';
 
-import { ExpenseTrackerContext } from '../../../context/context';
 import useStyles from './styles';
 
-const List = () => {
-  useEffect(() => {
-      let fetchTransactions = async () => {
-        let user_id = JSON.parse(localStorage.user).body._id
-        let transactions = await fetch(`http://localhost:5000/api/v001/data/get?user_id=${user_id}`, {
-            headers: {
-                'Authorization':"Bearer " + JSON.parse(localStorage.user).token
-            },
-        }).then(res => res.json()).then(jsonRes => {
-                return jsonRes
-        }).catch(error => console.log(error));
-        if(transactions) return transactions;
-        return null;
-      }
-      fetchTransactions().then(res => {
+const List = ({setTransactions}) => {
+  useEffect(() => {   
+    let fetchTransactions = async () => {
+      let user_id = JSON.parse(localStorage.user).body._id
+      let transactions = await fetch(`http://localhost:5000/api/v001/data/get?user_id=${user_id}`, {
+          headers: {
+              'Authorization':"Bearer " + JSON.parse(localStorage.user).token
+          },
+      }).then(res => res.json()).then(jsonRes => {
+              return jsonRes
+      }).catch(error => console.log(error));
+      if(transactions) return transactions;
+      return [];
+    }
+    fetchTransactions().then(res => {
         localStorage.setItem("transactions", JSON.stringify(res))
-      });
-
+        setTransactions(res)
+        return res;
+    });
   });
 
   const removeTransaction = async (id) => {
@@ -34,14 +34,16 @@ const List = () => {
       }).then(res => res.json()).then(jsonRes => {
               return jsonRes
       }).catch(error => console.log(error));
-      if(removededTransaction.ok) deleteTransaction(id)
+      if(removededTransaction.ok) {
+        let trans = JSON.parse(localStorage.transactions).filter((t) => t._id !== id);
+        localStorage.setItem("transactions", JSON.stringify(trans));
+      }
   }
   const classes = useStyles();
-  const { transactions, deleteTransaction } = useContext(ExpenseTrackerContext);
 
   return (
     <MUIList dense={false} className={classes.list}>
-      {transactions.map((transaction, index) => (
+      {localStorage.transactions?JSON.parse(localStorage.transactions).map((transaction, index) => (
         <Slide direction="down" in mountOnEnter unmountOnExit key={index}>
           <ListItem > 
             <ListItemAvatar>
@@ -57,7 +59,8 @@ const List = () => {
             </ListItemSecondaryAction>
           </ListItem>
         </Slide>
-        )) 
+        )) :
+        null
       }
     </MUIList>
   );

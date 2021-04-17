@@ -1,15 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card, CardHeader, CardContent, Typography, Grid, Divider } from '@material-ui/core';
 
-import { ExpenseTrackerContext } from '../../context/context';
 import useStyles from './styles';
 import Form from './Form/Form';
 import List from './List/List';
 import InfoCard from '../InfoCard';
 
-const ExpenseTracker = () => {
+const ExpenseTracker = ({transactions, setTransactions}) => {
+  
   const classes = useStyles();
-  const { balance } = useContext(ExpenseTrackerContext);
+  const balance = transactions ? transactions.reduce((acc, currVal) => {
+    return (currVal.type === "Expense" ? acc - currVal.amount : acc + currVal.amount)
+  }, 0) : 0;
 
   return (
     <Card className={classes.root}>
@@ -25,7 +27,7 @@ const ExpenseTracker = () => {
       <CardContent className={classes.cartContent}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <List/>
+            <List setTransactions={setTransactions}/>
           </Grid>
         </Grid>
       </CardContent>
