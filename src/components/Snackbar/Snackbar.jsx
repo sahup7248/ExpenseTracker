@@ -11,7 +11,6 @@ const CustomizedSnackbar = ({ open, setOpen }) => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
 

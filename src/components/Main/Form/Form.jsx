@@ -36,8 +36,13 @@ const Form = () => {
         }).then(res => res.json()).then(jsonRes => {
                 return jsonRes
         }).catch(error => console.log(error));
-        setOpen(true);
-        if(addedTransaction) addTransaction(addedTransaction);
+        
+        if(addedTransaction){
+            addTransaction(addedTransaction);
+            setOpen(true);
+        } else{
+            setOpen(false);
+        }
         setFormData(initialState);
     }
 

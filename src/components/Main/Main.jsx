@@ -1,8 +1,6 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Card, CardHeader, CardContent, Typography, Grid, Divider } from '@material-ui/core';
-// eslint-disable-next-line no-unused-vars
-import { useSpeechContext } from '@speechly/react-client';
+
 import { ExpenseTrackerContext } from '../../context/context';
 import useStyles from './styles';
 import Form from './Form/Form';
@@ -27,7 +25,7 @@ const ExpenseTracker = () => {
       <CardContent className={classes.cartContent}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <List />
+            <List/>
           </Grid>
         </Grid>
       </CardContent>

@@ -7,9 +7,9 @@ import { SpeechState, useSpeechContext } from '@speechly/react-client';
 import Main from '../Main/Main';
 import Details from '../Details/Details';
 import useStyles from './styles';
+import NavBar from '../navbar';
 
-
-const Homepage = () => {
+const Homepage = ({user, setUser}) => {
     const classes = useStyles();
     const { speechState } = useSpeechContext();
     const main = useRef(null);
@@ -23,7 +23,7 @@ const Homepage = () => {
 
     return (
         <div>
-            
+            <NavBar user={user} setUser={setUser}/>
             <Grid className={classes.grid} container spacing={0} alignItems="center" justify="center" style={{ height: '100vh' }}>
                 <Grid item xs={12} sm={4} className={classes.mobile}>
                     <Details title="Income"/>

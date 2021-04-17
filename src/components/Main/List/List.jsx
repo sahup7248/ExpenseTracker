@@ -22,7 +22,20 @@ const List = () => {
       fetchTransactions().then(res => {
         localStorage.setItem("transactions", JSON.stringify(res))
       });
-  })
+
+  });
+
+  const removeTransaction = async (id) => {
+    let removededTransaction = await fetch(`http://localhost:5000/api/v001/data/delete?id=${id}`, {
+              method: "DELETE",
+              headers: {
+                  'Authorization':"Bearer " + JSON.parse(localStorage.user).token
+              },
+      }).then(res => res.json()).then(jsonRes => {
+              return jsonRes
+      }).catch(error => console.log(error));
+      if(removededTransaction.ok) deleteTransaction(id)
+  }
   const classes = useStyles();
   const { transactions, deleteTransaction } = useContext(ExpenseTrackerContext);
 
@@ -38,13 +51,14 @@ const List = () => {
             </ListItemAvatar>
             <ListItemText primary={transaction.category} secondary={`\u20B9 ${transaction.amount} - ${transaction.date}`} />
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="delete" onClick={() => deleteTransaction(transaction._id)}>
+              <IconButton edge="end" aria-label="delete" onClick={() => removeTransaction(transaction._id)}>
                 <Delete />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
         </Slide>
-      ))}
+        )) 
+      }
     </MUIList>
   );
 };
