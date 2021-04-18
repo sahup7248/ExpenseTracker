@@ -102,8 +102,8 @@ const LoginSignUp = ({history, setUser}) => {
           <div class="content">
             <h3>New here ?</h3>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
+            Our expense trackers allow you to build a personal budget 
+            & see your cash balance. Getting on top of your finances comes with huge pay offs & peace of mind.
             </p>
             <button class="btn transparent" id="sign-up-btn" onClick={() => {const container = document.querySelector(".container");container.classList.add("sign-up-mode")}}>Sign up</button>
           </div>
@@ -113,8 +113,9 @@ const LoginSignUp = ({history, setUser}) => {
           <div class="content">
             <h3>One of us ?</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
+             
+              Already a user then login/Signup to get back and manage your expenses and income from where you left it.
+
             </p>
             <button class="btn transparent" id="sign-in-btn" onClick={ () => {const container = document.querySelector(".container"); container.classList.remove("sign-up-mode")}}>Sign in</button>
           </div>
