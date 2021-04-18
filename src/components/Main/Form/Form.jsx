@@ -23,7 +23,7 @@ const Form = () => {
     const createTransaction = async () => {
         if(Number.isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
        const transaction = { ...formData, amount: Number(formData.amount), user_id: JSON.parse(localStorage.user).body._id}
-       let addedTransaction = await fetch("http://localhost:5000/api/v001/data/post", {
+       let addedTransaction = await fetch("https://expense-trackapi.herokuapp.com/api/v001/data/post", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

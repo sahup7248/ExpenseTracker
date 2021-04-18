@@ -19,7 +19,7 @@ const LoginSignUp = ({history, setUser}) => {
       const formData = new URLSearchParams();
       formData.append('email', userDetails.email);
       formData.append('password', userDetails.password);
-      let user = await fetch("http://localhost:5000/api/v001/user/signup", {
+      let user = await fetch("https://expense-trackapi.herokuapp.com/api/v001/user/signup", {
         method: "POST",
         body: formData.toString(),
         headers: {
@@ -45,7 +45,7 @@ const LoginSignUp = ({history, setUser}) => {
     const formData = new URLSearchParams();
     formData.append('email', userDetails.email);
     formData.append('password', userDetails.password);
-    let user = await fetch("http://localhost:5000/api/v001/user/login", {
+    let user = await fetch("https://expense-trackapi.herokuapp.com/api/v001/user/login", {
       method: "POST",
       body: formData.toString(),
       headers: {

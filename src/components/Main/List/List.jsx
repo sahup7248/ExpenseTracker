@@ -8,7 +8,7 @@ const List = ({setTransactions}) => {
   useEffect(() => {   
     let fetchTransactions = async () => {
       let user_id = JSON.parse(localStorage.user).body._id
-      let transactions = await fetch(`http://localhost:5000/api/v001/data/get?user_id=${user_id}`, {
+      let transactions = await fetch(`https://expense-trackapi.herokuapp.com/api/v001/data/get?user_id=${user_id}`, {
           headers: {
               'Authorization':"Bearer " + JSON.parse(localStorage.user).token
           },
@@ -26,7 +26,7 @@ const List = ({setTransactions}) => {
   });
 
   const removeTransaction = async (id) => {
-    let removededTransaction = await fetch(`http://localhost:5000/api/v001/data/delete?id=${id}`, {
+    let removededTransaction = await fetch(`https://expense-trackapi.herokuapp.com/api/v001/data/delete?id=${id}`, {
               method: "DELETE",
               headers: {
                   'Authorization':"Bearer " + JSON.parse(localStorage.user).token
