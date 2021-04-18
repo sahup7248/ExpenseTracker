@@ -20,6 +20,7 @@ const NavBar = ({user ,setUser}) =>{
                     {
                         user ? 
                             <span className="NavLink">
+                                <i class="fas fa-user-circle fa-2x"></i>
                                 {user.body.email}
                             </span>
                         : null
